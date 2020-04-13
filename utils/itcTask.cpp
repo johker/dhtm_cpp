@@ -30,14 +30,13 @@ bool stopItcTask() {
 	}
 	return true;
 }
-bool ItcTask::pushMessage(std::shared_ptr<T> argMessage) {
+bool ItcTask::pushMessage(char* argMessage) {
 	//TODO Prevent message overflow / diagnostics
 	messageQueue.push(argMessage);
 	messageQueuedCondition.notify_one();
 	return true;
 }
-template <class T>	
-static int worker(ItcTask<T>* argItcTask) {
+static int worker(ItcTask argItcTask) {
 	do {
 		{
 			std::unique_lock<std::mutex> lock(argItcTask->messageQueueMutex);
@@ -45,7 +44,7 @@ static int worker(ItcTask<T>* argItcTask) {
 				messageQueuedCondition.wait(lock);
 			}
 		}
-		std::shared_ptr<T> message = nullptr;
+		char* message = nullptr;
 		{
 			std::unique_lock<std::mutex> lock(argItcTask->messageQueueMutex);
 			if(argItcTask->messageQueue.size() > 0) {
@@ -63,7 +62,7 @@ static int worker(ItcTask<T>* argItcTask) {
 
 	{
 		std::unique_lock<std::mutex> lock(argItcTask->messageQueueMutex); 
-		argItcTask->messageQueue = std::queue<std::shared_ptr<T>>();
+		argItcTask->messageQueue = std::queue<char*>();
 	}
 	return 0;
 }

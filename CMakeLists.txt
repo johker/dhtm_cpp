@@ -9,13 +9,15 @@ set(CMAKE_BUILD_TYPE Debug)
 add_library(dhtmlib)
 add_library(utilslib)
 
-find_package(xtl REQUIRED)                                                                                                                                                   find_package(xtensor REQUIRED)
-find_package(Zeromq REQUIRED)
+find_package(xtl REQUIRED)
+find_package(xtensor REQUIRED)
+
+find_library(zmq REQUIRED)
 
 add_subdirectory(dhtm)
 add_subdirectory(utils)
 
-add_executable(dhtmcore dhtm/main.cpp)
+add_executable(dhtmcore main.cpp)
 
-target_link_libraries(dhtmcore PUBLIC dhtmlib xtensor ${CURSES_LIBRARY})
+target_link_libraries(dhtmcore PUBLIC dhtmlib utilslib xtensor ${CURSES_LIBRARY})
 

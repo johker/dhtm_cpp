@@ -12,8 +12,6 @@
 
 #include "../tiny_htm/tiny_htm/tiny_htm.hpp"
 
-#include "utils/itcMessage.hpp"
-#include "utils/itcQueue.hpp"
 #include "utils/logger.hpp"
 
 
@@ -32,7 +30,8 @@ int main(){
 	th::CategoryEncoder categoryEncoder(numcat, encLen);
 	th::TemporalMemory tm({numcat*4}, 6);
 	
-	DEBUG("Terminal started");
+	
+	DEBUG("DHTM started");
 
 	return 0;
 }

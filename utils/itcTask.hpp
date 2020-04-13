@@ -7,26 +7,26 @@
 
 namespace dh {
 
-template <class T>	
 class ItcTask {
 
 public: 
-	virtual ~ItcTask();
-	bool pushMessage(std::shared_ptr<T> argMessage);
+	virtual	~ItcTask();
+	bool ItcTask::pushMessage(char* argMessage);
+	virtual bool handleMessage(char* argMessage) = 0;
 
-protected: 
-	explicit ItcTask(std::string argName);
-	bool startTask(); 
-	bool stopTask(); 
-	virtual bool handleMessage(std::shared_ptr<T> argMessage) = 0;
+protected:
+	explicit ItcTask::ItcTask(std::string argItcTaskName);
+	bool startItcTask();
+	bool stopItcTask();
+	bool pushMessage(char* argMessage);
 
 private: 
 	std::atomic<bool> done; 
 	std::unique_ptr<std::thread> workerThread; 
 	mutable std::mutex messageQueueMutex;
-	std::queue<std::shared_ptr<T>> messageQueue;
+	std::queue<char*> messageQueue;
 	std::condition_variable messageQueuedCondition;
-	static int worker(ItcTask<T> argItcTask);
+	static int worker(ItcTask argItcTask);
 	
 };
 }
