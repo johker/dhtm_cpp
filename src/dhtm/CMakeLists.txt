@@ -10,6 +10,13 @@ find_package(xtensor REQUIRED)
 
 find_package(Threads REQUIRED)
 
-target_link_libraries(dhtmlib PUBLIC xtensor ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(dhtmlib 
+	PUBLIC 
+		xtensor 
+		${CMAKE_THREAD_LIBS_INIT}
+)
 
-target_include_directories(dhtmlib PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(dhtmlib 
+	PUBLIC 
+		${CMAKE_CURRENT_LIST_DIR}
+)

@@ -19,5 +19,11 @@ add_subdirectory(utils)
 
 add_executable(dhtmcore main.cpp)
 
-target_link_libraries(dhtmcore PUBLIC dhtmlib utilslib xtensor ${CURSES_LIBRARY})
+target_link_libraries(dhtmcore 
+	PUBLIC 
+		dhtmlib 
+		utilslib 
+		xtensor 
+		${CURSES_LIBRARY}
+)
 

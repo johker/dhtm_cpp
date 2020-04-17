@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 3.13)                                                                                                                                                                               
-# Run with cmake -DCMAKE_PREFIX_PATH=~/miniconda3 ..
-
 project(dhtmtest)
 
+add_library(testlib 
+	OBJECT 
+		utils/messageEncoderTest.cpp 
+		utils/messageEncoderTest.hpp
+)
+target_link_libraries(testlib 
+	PUBLIC 
+		GTest::Main 
+		zmq 
+		xtensor
+)
+ 
 set(CMAKE_BUILD_TYPE Debug)
 
 find_package(xtl REQUIRED)
@@ -13,4 +23,8 @@ find_library(zmq REQUIRED)
 
 add_executable(dhtmtest main.cpp)
 
-target_link_libraries(dhtmtest PUBLIC GTest::GTest GTest::Main zmq xtensor)
+target_link_libraries(dhtmtest 
+	PUBLIC 
+		testlib
+)
+

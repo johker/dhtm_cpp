@@ -9,5 +9,9 @@ find_library(zmq REQUIRED)
 
 add_executable(zmqbroker main.cpp)
 
-target_link_libraries(zmqbroker PUBLIC zmq)
+target_link_libraries(zmqbroker 
+	PUBLIC 
+		zmq
+)
+
 

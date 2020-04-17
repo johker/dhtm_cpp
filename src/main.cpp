@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include "../tiny_htm/tiny_htm/tiny_htm.hpp"
+#include "../../tiny_htm/tiny_htm/tiny_htm.hpp"
 
 #include "utils/logger.hpp"
 
