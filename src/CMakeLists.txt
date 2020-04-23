@@ -7,7 +7,10 @@ project(dhtmcore)
 set(CMAKE_BUILD_TYPE Debug)
 
 add_library(dhtmlib)
+add_library(dhtm::dhtmlib ALIAS dhtmlib)
+
 add_library(utilslib)
+add_library(dhtm::utilslib ALIAS utilslib)
 
 find_package(xtl REQUIRED)
 find_package(xtensor REQUIRED)
@@ -26,4 +29,3 @@ target_link_libraries(dhtmcore
 		xtensor 
 		${CURSES_LIBRARY}
 )
-

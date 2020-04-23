@@ -6,6 +6,9 @@ add_library(testlib
 		utils/messageEncoderTest.cpp 
 		utils/messageEncoderTest.hpp
 )
+add_library(dhtm::testlib ALIAS testlib)
+
+
 target_link_libraries(testlib 
 	PUBLIC 
 		GTest::Main 
@@ -25,6 +28,7 @@ add_executable(dhtmtest main.cpp)
 
 target_link_libraries(dhtmtest 
 	PUBLIC 
-		testlib
+		dhtm::testlib
+		dhtm::utilslib
 )
 
