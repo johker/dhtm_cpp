@@ -8,41 +8,40 @@ uint32_t MessageEncoder::uuid = 0;
 MessageEncoder::MessageEncoder() {}
 MessageEncoder::~MessageEncoder() {}
 
-char* MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr) {	
+bool MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr, unsigned char** retMsg, size_t& retMsgSize) {	
 	size_t payloadSize = argSdr.size() >> 3;
-	char bytes[PAYLOAD_OFFSET + payloadSize] = {};
+	retMsgSize = PAYLOAD_OFFSET + payloadSize;
+	unsigned char msg[retMsgSize] = {};
+
 	// ID
 	uint32_t id = getUuid();
-	bytes[ID_OFFSET] = (id >> 24) & 0xFF;
-	bytes[ID_OFFSET+1] = (id >> 16) & 0xFF;
-	bytes[ID_OFFSET+2] = (id >> 8) & 0xFF;
-	bytes[ID_OFFSET+3] = (id) & 0xFF;
+	msg[ID_OFFSET] = (id >> 24) & 0xFF;
+	msg[ID_OFFSET+1] = (id >> 16) & 0xFF;
+	msg[ID_OFFSET+2] = (id >> 8) & 0xFF;
+	msg[ID_OFFSET+3] = (id) & 0xFF;
 
 	// Command
-	bytes[CMD_OFFSET] = (argMsgCmd >> 8) & 0xFF;
-	bytes[CMD_OFFSET+1] = (argMsgCmd) & 0xFF;
+	msg[CMD_OFFSET] = (argMsgCmd >> 8) & 0xFF;
+	msg[CMD_OFFSET+1] = (argMsgCmd) & 0xFF;
 
 	// Key
-	bytes[KEY_OFFSET] = (argMsgKey >> 24) & 0xFF;
-	bytes[KEY_OFFSET+1] = (argMsgKey >> 16) & 0xFF;
-	bytes[KEY_OFFSET+2] = (argMsgKey >> 8) & 0xFF;
-	bytes[KEY_OFFSET+3] = (argMsgKey) & 0xFF;
-
-	// Size 
-	bytes[SIZE_OFFSET] = (payloadSize >> 8) & 0xFF;
-	bytes[SIZE_OFFSET+1] = (payloadSize) & 0xFF;
+	msg[KEY_OFFSET] = (argMsgKey >> 24) & 0xFF;
+	msg[KEY_OFFSET+1] = (argMsgKey >> 16) & 0xFF;
+	msg[KEY_OFFSET+2] = (argMsgKey >> 8) & 0xFF;
+	msg[KEY_OFFSET+3] = (argMsgKey) & 0xFF;
 
 	// Payload
 	for(int j = 0; j < payloadSize; j++) {
 		for (int i=0; i < 8; ++i) {
 			if (argSdr[j*8+i]) {
-				bytes[PAYLOAD_OFFSET + j] |= 1 << i;
+				msg[PAYLOAD_OFFSET + j] |= 1 << i;
 			}
 		}
 	}
-	char* msgptr = &bytes[0];
-	return msgptr;
+	*retMsg = &msg[0];
+	return false;
 }
+
 
 void MessageEncoder::decode(const char* argMessage) {
 	// TODO: 

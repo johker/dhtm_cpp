@@ -15,7 +15,7 @@ public:
 	MessageEncoder();
 	virtual ~MessageEncoder();
 
-	static char* createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr);
+	static bool createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr, unsigned char** retMsg, size_t& retMsgSize);
 	static void decode(const char* argMessage);
 	static uint32_t getUuid();
 private:
