@@ -11,7 +11,7 @@ MessageEncoder::~MessageEncoder() {}
 zmq::message_t MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr) {	
 	size_t payloadSize = argSdr.size() >> 3;
 	size_t msgSize = PAYLOAD_OFFSET + payloadSize;
-	unsigned char msgData[msgSize];
+	unsigned char msgData[msgSize] = {};
 	zmq::message_t msg(msgSize);
 
 	// ID
@@ -34,10 +34,10 @@ zmq::message_t MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageK
 	msgData[KEY_OFFSET+3] = (argMsgKey) & 0xFF;
 
 	// Payload
-	for(int j = 0; j < payloadSize; j++) {
-		for (int i=0; i < 8; ++i) {
-			if (argSdr[j*8+i]) {
-				msgData[PAYLOAD_OFFSET + j] |= 1 << i;
+	for(int i = 0; i < payloadSize; i++) {
+		for (int j=0; j < 8; j++) {
+			if (argSdr[i*8+j]) {
+				msgData[PAYLOAD_OFFSET + i] |= 1 << j;
 			}
 		}
 	}
@@ -78,12 +78,8 @@ void MessageEncoder::printMessage(zmq::message_t& argMsg) {
 	for (size_t i=0; i<(msgSize - PAYLOAD_OFFSET);i++) {
 		printf(">>      %3d : ", (i+1));
 	 	c = msgData[PAYLOAD_OFFSET+i];
-		bool tb[8] = {};
 		for(size_t j = 0; j<8; j++) {
-			if(c & (1 << j)){
-				tb[j]=true;
-			}				
-			printf("%d", tb[j]); 		
+			printf("%d", (msgData[PAYLOAD_OFFSET+i]>>j)&1); 		
 		}
 		printf("\n");
 	}
