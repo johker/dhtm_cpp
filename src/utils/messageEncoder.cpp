@@ -46,10 +46,48 @@ zmq::message_t MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageK
 }
 
 
-void MessageEncoder::printMessage(unsigned char* argMsg, size_t& argMsgSize) {
-	for(size_t i = 0; i < argMsgSize; i++) {
-		std::cout << i << ' ' << std::bitset<8>(argMsg[i]) << '\n';	
+void MessageEncoder::printMessage(zmq::message_t& argMsg) {
+	unsigned char* msgData = static_cast<unsigned char*>(argMsg.data());		
+	size_t msgSize = argMsg.size();
+
+	uint32_t msgId = 
+		(uint32_t)msgData[ID_OFFSET] << 24 |
+		(uint32_t)msgData[ID_OFFSET+1] << 16 |
+		(uint32_t)msgData[ID_OFFSET+2] << 8  |
+		(uint32_t)msgData[ID_OFFSET+3];
+	
+	uint32_t msgCmd = 
+		(uint32_t)msgData[CMD_OFFSET] << 24 |
+		(uint32_t)msgData[CMD_OFFSET+1] << 16 |
+		(uint32_t)msgData[CMD_OFFSET+2] << 8  |
+		(uint32_t)msgData[CMD_OFFSET+3];
+
+	uint32_t msgKey = 
+	       	(uint32_t)msgData[KEY_OFFSET] << 24 |
+		(uint32_t)msgData[KEY_OFFSET+1] << 16 |
+		(uint32_t)msgData[KEY_OFFSET+2] << 8  |
+		(uint32_t)msgData[KEY_OFFSET+3];
+
+	printf("--------------------------- \n");
+	printf(">>   MSG ID : %d\n", msgId);
+	printf(">>      CMD : %d\n", msgCmd);
+	printf(">>      KEY : %d\n", msgKey);
+	printf(">>  PAYLOAD : \n");
+
+	char c;
+	for (size_t i=0; i<(msgSize - PAYLOAD_OFFSET);i++) {
+		printf(">>      %3d : ", (i+1));
+	 	c = msgData[PAYLOAD_OFFSET+i];
+		bool tb[8] = {};
+		for(size_t j = 0; j<8; j++) {
+			if(c & (1 << j)){
+				tb[j]=true;
+			}				
+			printf("%d", tb[j]); 		
+		}
+		printf("\n");
 	}
+	printf("--------------------------- \n");
 }
 
 void MessageEncoder::decode(const char* argMessage) {

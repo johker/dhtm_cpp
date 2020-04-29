@@ -17,7 +17,7 @@ public:
 	virtual ~MessageEncoder();
 
 	static zmq::message_t createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr);
-	static void printMessage(unsigned char* argMsg, size_t& argMsgSize);
+	static void printMessage(zmq::message_t& argMsg);
 	static void decode(const char* argMessage);
 	static uint32_t getUuid();
 private:
