@@ -1,7 +1,5 @@
 #pragma once
 
-#define HEADER_SIZE 14		// Number of bytes in the header
-
 #include <xtensor/xarray.hpp>
 #include <zmq.hpp>
 
@@ -16,11 +14,14 @@ public:
 	MessageEncoder();
 	virtual ~MessageEncoder();
 
-	static zmq::message_t createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr);
+	static zmq::message_t createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const xt::xarray<bool>& argSdr);
+	static MessageCommand parseMessageCommand(const zmq::message_t& argMsg);
 	static void printMessage(zmq::message_t& argMsg);
-	static void decode(const char* argMessage);
-	static uint32_t getUuid();
+
 private:
-        static uint32_t uuid;
+	static uint32_t getUuid();
+        
+	static uint32_t uuid;
+
 };
 }

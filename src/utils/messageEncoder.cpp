@@ -8,7 +8,7 @@ uint32_t MessageEncoder::uuid = 0;
 MessageEncoder::MessageEncoder() {}
 MessageEncoder::~MessageEncoder() {}
 
-zmq::message_t MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageKey& argMsgKey, const xt::xarray<bool>& argSdr) {	
+zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const xt::xarray<bool>& argSdr) {	
 	size_t payloadSize = argSdr.size() >> 3;
 	size_t msgSize = PAYLOAD_OFFSET + payloadSize;
 	unsigned char msgData[msgSize] = {};
@@ -45,6 +45,13 @@ zmq::message_t MessageEncoder::createMessage(MessageCommand& argMsgCmd, MessageK
 	return msg;
 }
 
+MessageCommand MessageEncoder::parseMessageCommand(const zmq::message_t& argMsg){
+	//TODO Implementation
+	MessageCommand msgCmd = MessageCommand::ACK;
+	return msgCmd;
+}
+
+
 
 void MessageEncoder::printMessage(zmq::message_t& argMsg) {
 	unsigned char* msgData = static_cast<unsigned char*>(argMsg.data());		
@@ -72,10 +79,11 @@ void MessageEncoder::printMessage(zmq::message_t& argMsg) {
 	printf(">>   MSG ID : %d\n", msgId);
 	printf(">>      CMD : %d\n", msgCmd);
 	printf(">>      KEY : %d\n", msgKey);
-	printf(">>  PAYLOAD : \n");
+	size_t payloadSize = msgSize - PAYLOAD_OFFSET;
+	printf(">>  PAYLOAD : %d B\n", payloadSize );
 
 	char c;
-	for (size_t i=0; i<(msgSize - PAYLOAD_OFFSET);i++) {
+	for (size_t i=0; i<payloadSize;i++) {
 		printf(">>      %3d : ", (i+1));
 	 	c = msgData[PAYLOAD_OFFSET+i];
 		for(size_t j = 0; j<8; j++) {
@@ -86,17 +94,17 @@ void MessageEncoder::printMessage(zmq::message_t& argMsg) {
 	printf("--------------------------- \n");
 }
 
-void MessageEncoder::decode(const char* argMessage) {
-	// TODO: 
-	// Read SDR Length
-	// Read Active bits and write to xarray
-	
-	char c;
-	for (int i = 0; i < 8; ++i) {
-		bool is_set = c & (1 << i);
-	//	std::out << "Bit " << i << ": " << is_set << '\n';
-	}
-}
+// MessageEncoder::decode(const char* argMessage) {
+//	// TODO: 
+//	// Read SDR Length
+//	// Read Active bits and write to xarray
+//	
+//	char c;
+//	for (int i = 0; i < 8; ++i) {
+//		bool is_set = c & (1 << i);
+//	//	std::out << "Bit " << i << ": " << is_set << '\n';
+//	}
+//}
 uint32_t MessageEncoder::getUuid() {
 	return uuid++;
 }
