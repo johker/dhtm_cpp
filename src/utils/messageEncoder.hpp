@@ -15,7 +15,7 @@ public:
 	virtual ~MessageEncoder();
 
 	static zmq::message_t createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const xt::xarray<bool>& argSdr);
-	static MessageCommand parseMessageCommand(const zmq::message_t& argMsg);
+	static MessageCommand parseMessageCommand(unsigned char*& argMsgData);
 	static void printMessage(zmq::message_t& argMsg);
 
 private:

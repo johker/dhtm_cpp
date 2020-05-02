@@ -58,5 +58,17 @@ TEST_F(MessageEncoderTest, createSdrMessageTest) {
 		}
 	}
 }
+TEST_F(MessageEncoderTest, parseMessageCommandTest) {
+	// Arrange
+	MessageCommand testCmd = MessageCommand::ACK; 
+	MessageKey emptyKey; 
+	xt::xarray<bool> emptySdr; 
+	zmq::message_t testMsg = MessageEncoder::createMessage(testCmd, emptyKey, emptySdr); 
+	unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
+	// Act
+	MessageCommand retCmd = MessageEncoder::parseMessageCommand(testMsgData); 
+	// Assert
+	EXPECT_TRUE(retCmd == testCmd);
+}
 
 }

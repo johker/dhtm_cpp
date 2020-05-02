@@ -45,10 +45,13 @@ zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, co
 	return msg;
 }
 
-MessageCommand MessageEncoder::parseMessageCommand(const zmq::message_t& argMsg){
-	//TODO Implementation
-	MessageCommand msgCmd = MessageCommand::ACK;
-	return msgCmd;
+MessageCommand MessageEncoder::parseMessageCommand(unsigned char*& argMsgData){
+	uint32_t msgCmd = 
+		(uint32_t)argMsgData[CMD_OFFSET] << 24 |
+		(uint32_t)argMsgData[CMD_OFFSET+1] << 16 |
+		(uint32_t)argMsgData[CMD_OFFSET+2] << 8  |
+		(uint32_t)argMsgData[CMD_OFFSET+3];
+	return static_cast<MessageCommand>(msgCmd);
 }
 
 
