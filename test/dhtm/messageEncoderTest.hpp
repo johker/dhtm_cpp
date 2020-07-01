@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../../src/utils/messageEncoder.hpp"
+#include "../../src/dhtm/messageEncoder.hpp"
 
 namespace dh {
 

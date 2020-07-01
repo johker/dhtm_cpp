@@ -1,9 +1,12 @@
 target_sources(dhtmlib
 	PRIVATE
 		zmqConnector.cpp
+		messageEncoder.cpp
 	PUBLIC
 		zmqConnector.hpp
+		messageEncoder.hpp
 		ipcInterface.hpp
+		coreConstants.hpp
 )
 find_package(xtl REQUIRED)
 find_package(xtensor REQUIRED)

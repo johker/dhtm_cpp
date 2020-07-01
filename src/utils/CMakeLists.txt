@@ -1,10 +1,8 @@
 target_sources(utilslib
 	PRIVATE
 		logger.cpp
-		messageEncoder.cpp
 	PUBLIC
 		logger.hpp
-		messageEncoder.hpp
 )
 find_package(xtl REQUIRED)
 find_package(xtensor REQUIRED)

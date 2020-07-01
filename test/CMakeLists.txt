@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.13)                                                                                                                                                                               
+	cmake_minimum_required(VERSION 3.13)                                                                                                                                                                               
 project(dhtmtest)
 
 add_library(testlib 
 	OBJECT 
-		utils/messageEncoderTest.cpp 
-		utils/messageEncoderTest.hpp
+		dhtm/messageEncoderTest.cpp 
+		dhtm/messageEncoderTest.hpp
 )
 add_library(dhtm::testlib ALIAS testlib)
 
@@ -29,6 +29,7 @@ add_executable(dhtmtest main.cpp)
 target_link_libraries(dhtmtest 
 	PUBLIC 
 		dhtm::testlib
+		dhtm::dhtmlib
 		dhtm::utilslib
 )
 
