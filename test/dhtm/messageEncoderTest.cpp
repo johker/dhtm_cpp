@@ -40,20 +40,20 @@ TEST_F(MessageEncoderTest, createSdrMessageTest) {
 					(uint32_t)testMsgData[CMD_OFFSET+1] << 16 |
 					(uint32_t)testMsgData[CMD_OFFSET+2] << 8  |
 					(uint32_t)testMsgData[CMD_OFFSET+3];
-				EXPECT_TRUE(testCmd == createdCmd);
+				EXPECT_EQ(testCmd,createdCmd);
 
 				uint32_t createdKey = 
 					(uint32_t)testMsgData[KEY_OFFSET] << 24 |
 					(uint32_t)testMsgData[KEY_OFFSET+1] << 16 |
 					(uint32_t)testMsgData[KEY_OFFSET+2] << 8  |
 					(uint32_t)testMsgData[KEY_OFFSET+3];
-				EXPECT_TRUE(testKey == createdKey);
+				EXPECT_EQ(testKey,createdKey);
 
 				EXPECT_TRUE(testMsgSize - PAYLOAD_OFFSET == SDR >> 3);
-				for (size_t i=0; i<(testMsgSize - PAYLOAD_OFFSET);i++) {
+				for (size_t i=0; i < 2; i++) {
 					for(size_t j = 0; j<8; j++) {
-						EXPECT_TRUE(testSdr[i*8+j] == ((testMsgData[PAYLOAD_OFFSET+i]>>j) &1));
-						}	
+						EXPECT_EQ(testSdr[i*8+j],((testMsgData[PAYLOAD_OFFSET+i]>>j) &1));
+					}	
 				}
 			}	
 		}
@@ -70,7 +70,7 @@ TEST_F(MessageEncoderTest, parseMessageCommandTest) {
 	// Act
 	MessageCommand retCmd = MessageEncoder::parseMessageCommand(testMsgData); 
 	// Assert
-	EXPECT_TRUE(retCmd == testCmd);
+	EXPECT_EQ(retCmd, testCmd);
 }
 
 TEST_F(MessageEncoderTest, parseMessageKeyTest) {
@@ -83,7 +83,7 @@ TEST_F(MessageEncoderTest, parseMessageKeyTest) {
 	// Act
 	MessageKey retKey = MessageEncoder::parseMessageKey(testMsgData); 
 	// Assert
-	EXPECT_TRUE(retKey == testKey);
+	EXPECT_EQ(retKey,testKey);
 }
 
 TEST_F(MessageEncoderTest, parseSdrTest) {
@@ -102,6 +102,11 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 		zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, emptyKey, testSdr); 
 		const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
 		size_t testMsgSize = testMsg.size();
+		for (size_t i=0; i < 2; i++) {
+			for(size_t j = 0; j<8; j++) {
+				EXPECT_EQ(testSdr[i*8+j],((testMsgData[PAYLOAD_OFFSET+i]>>j) &1));
+			}	
+		}
 		// Act
 		std::bitset<SDR> retSdr = MessageEncoder::parseSdr(testMsgData, testMsgSize); 
 		// Assert
@@ -109,8 +114,9 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 		printf("Returned size = %d\n", retSdrSize);
 		EXPECT_TRUE(retSdrSize == testSdr.size());
 		for(size_t i = 0; i<retSdrSize; i++) {
-			printf("retSdr(%d) = %d, testSdr(%d) = %d \n", i,retSdr[i],i,testSdr[i]);
-			EXPECT_TRUE(retSdr[i] == testSdr[i]);
+			//printf("retSdr(%d) = %d, testSdr(%d) = %d \n", i,retSdr[i],i,testSdr[i]);
+			
+			EXPECT_EQ(retSdr[i],testSdr[i]);
 		}
 	}
 	
