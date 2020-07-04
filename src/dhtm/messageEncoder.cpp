@@ -63,17 +63,6 @@ MessageKey MessageEncoder::parseMessageKey(const unsigned char*& argMsgData){
 	return static_cast<MessageKey>(msgKey);
 }
 
-//std::vector<bool> MessageEncoder::parseSdr(const unsigned char*& argMsgData, const size_t& argMsgSize) {
-//	int sdrByteSize = argMsgSize - PAYLOAD_OFFSET;
-//	std::vector<bool> sdr(sdrByteSize>>3);
-//	for (size_t i=0; i<sdrByteSize; i++) {
-//		for(size_t j = 0; j<8; j++) {
-//			sdr.push_back(((argMsgData[PAYLOAD_OFFSET+i]>>j) &1));
-//		}	
-//	}
-//	return sdr;
-//}
-
 uint32_t MessageEncoder::getUuid() {
 	return uuid++;
 }
@@ -88,12 +77,10 @@ std::bitset<SDR> MessageEncoder::parseSdr(const unsigned char*& argMsgData, cons
 				ERROR("Msg exceeds max SDR size: " + std::to_string(sdrByteSize>>3) + " > " + std::to_string(SDR));
 				return sdr;
 			}
-			sdr[sdrIdx] = (argMsgData[PAYLOAD_OFFSET+i]>>j) &1;
+			sdr[i*8+j] = (argMsgData[PAYLOAD_OFFSET+i]>>j) &1;
 		}	
 	}
 	return sdr;
 }
-
-
 
 }

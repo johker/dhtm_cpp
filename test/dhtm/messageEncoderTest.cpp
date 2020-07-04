@@ -94,9 +94,13 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 	std::bitset<SDR> sdr1(std::string("01011101"));			 	// 1 byte
 	std::bitset<SDR> sdr2(std::string("0101"));				// 0 bytes
 	std::bitset<SDR> sdr3(std::string("0101100101110011"));			// 2 bytes
+	std::bitset<SDR> sdr4;
+	sdr4[234] = 1;
 	testSdrs.push_back(sdr1);
 	testSdrs.push_back(sdr2);
 	testSdrs.push_back(sdr3);
+	testSdrs.push_back(sdr4);
+	std::bitset<SDR> retSdr;
 
 	for(auto& testSdr : testSdrs) {
 		zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, emptyKey, testSdr); 
@@ -108,18 +112,14 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 			}	
 		}
 		// Act
-		std::bitset<SDR> retSdr = MessageEncoder::parseSdr(testMsgData, testMsgSize); 
+		retSdr = MessageEncoder::parseSdr(testMsgData, testMsgSize); 
 		// Assert
 		size_t retSdrSize = retSdr.size();
-		printf("Returned size = %d\n", retSdrSize);
 		EXPECT_TRUE(retSdrSize == testSdr.size());
 		for(size_t i = 0; i<retSdrSize; i++) {
-			//printf("retSdr(%d) = %d, testSdr(%d) = %d \n", i,retSdr[i],i,testSdr[i]);
-			
 			EXPECT_EQ(retSdr[i],testSdr[i]);
 		}
 	}
-	
 }
 
 
