@@ -3,8 +3,8 @@ project(dhtmtest)
 
 add_library(testlib 
 	OBJECT 
-		dhtm/messageEncoderTest.cpp 
-		dhtm/messageEncoderTest.hpp
+		htm/messageEncoderTest.cpp 
+		htm/messageEncoderTest.hpp
 )
 add_library(dhtm::testlib ALIAS testlib)
 
@@ -28,8 +28,9 @@ add_executable(dhtmtest main.cpp)
 
 target_link_libraries(dhtmtest 
 	PUBLIC 
-		dhtm::testlib
-		dhtm::dhtmlib
+		dhtm::comlib
+		dhtm::htmlib
 		dhtm::utilslib
+		dhtm::testlib
 )
 

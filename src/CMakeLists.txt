@@ -6,8 +6,11 @@ project(dhtmcore)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_library(dhtmlib)
-add_library(dhtm::dhtmlib ALIAS dhtmlib)
+add_library(comlib)
+add_library(dhtm::comlib ALIAS comlib)
+
+add_library(htmlib)
+add_library(dhtm::htmlib ALIAS htmlib)
 
 add_library(utilslib)
 add_library(dhtm::utilslib ALIAS utilslib)
@@ -17,15 +20,17 @@ find_package(xtensor REQUIRED)
 
 find_library(zmq REQUIRED)
 
-add_subdirectory(dhtm)
+add_subdirectory(htm)
+add_subdirectory(com)
 add_subdirectory(utils)
 
 add_executable(dhtmcore main.cpp)
 
 target_link_libraries(dhtmcore 
 	PUBLIC 
-		dhtmlib 
+		comlib
+		htmlib 
 		utilslib 
-		xtensor 
+		xtensor
 		${CURSES_LIBRARY}
 )

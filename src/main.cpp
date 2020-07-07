@@ -26,10 +26,12 @@ int main(){
 	size_t min = 0; 
 	size_t max = 100; 
 
-	th::ScalarEncoder scalarEncoder(min, max, encLen, actBits);
-	th::CategoryEncoder categoryEncoder(numcat, encLen);
-	th::TemporalMemory tm({numcat*4}, 6);
-	
+	//th::ScalarEncoder scalarEncoder(min, max, encLen, actBits);
+	//th::CategoryEncoder categoryEncoder(numcat, encLen);
+	//th::TemporalMemory tm({numcat*4}, 6);
+	dh::zmqConnector zmqConnector; 
+	zmqConnector.initialize();
+		
 	
 	DEBUG("DHTM started");
 

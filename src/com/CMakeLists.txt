@@ -1,25 +1,21 @@
-target_sources(dhtmlib
+target_sources(comlib
 	PRIVATE
 		zmqConnector.cpp
 		messageEncoder.cpp
 	PUBLIC
 		zmqConnector.hpp
 		messageEncoder.hpp
-		ipcInterface.hpp
+		comInterface.hpp
 		coreConstants.hpp
 )
-find_package(xtl REQUIRED)
-find_package(xtensor REQUIRED)
-
 find_package(Threads REQUIRED)
 
-target_link_libraries(dhtmlib 
+target_link_libraries(comlib 
 	PUBLIC 
-		xtensor 
 		${CMAKE_THREAD_LIBS_INIT}
 )
 
-target_include_directories(dhtmlib 
+target_include_directories(comlib 
 	PUBLIC 
 		${CMAKE_CURRENT_LIST_DIR}
 )

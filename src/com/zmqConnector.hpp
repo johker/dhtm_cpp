@@ -5,9 +5,11 @@
 #include <queue>
 #include <zmq.hpp>
 
+#include "comInterface.hpp"
+
 namespace dh {
 
-class ZmqConnector {
+class ZmqConnector : public ComInterface {
 
 public: 
 	ZmqConnector();

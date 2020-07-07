@@ -6,6 +6,11 @@ ZmqConnector::ZmqConnector() {}
 ZmqConnector::~ZmqConnector() {}
 
 int ZmqConnector::initialize() {
+	//zmqContext = new zmq::context_t(1);
+	//socketPublisher = new zmq::socket_t(*zmqContext, ZMQ_PUB);
+	//socketPublisher->connect(sendProtocol);
+	//socketSubscriber = new zmq::socket_t(*zmqContext, ZMQ_SUB);
+	//socketSubscriber->connect(subscriberToAddr);
 	return 0;
 }
 void ZmqConnector::publish(const char* argData) {
