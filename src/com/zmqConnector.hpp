@@ -6,6 +6,8 @@
 #include <zmq.hpp>
 
 #include "comInterface.hpp"
+#include "messageEncoder.hpp"
+
 
 namespace dh {
 
@@ -16,7 +18,7 @@ public:
 	virtual ~ZmqConnector();
 
 	virtual	int initialize();
-	virtual	void publish(const char* argData);
+	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
 		
 
 private: 

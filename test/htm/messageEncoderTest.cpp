@@ -122,5 +122,35 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 	}
 }
 
+TEST_F(MessageEncoderTest, parseParameterTest) {
+	// Arrange
+	MessageCommand emptyCmd;
+	MessageKey emptyKey; 
+	std::vector<float> testParams; 
+	testParams.push_back(3.45f);
+	testParams.push_back(-1223.35);
+	float retParam; 
+
+	for(auto& testParam : testParams) {
+		zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, emptyKey, testParam);
+		const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
+		size_t testMsgSize = testMsg.size();
+		// Act 
+		retParam = MessageEncoder::parseParameter(testMsgData);
+	       	// Assert
+		EXPECT_EQ(testParam, retParam); 	
+	}
+
+
+
+
+
+
+
+
+
+
+
+}
 
 }

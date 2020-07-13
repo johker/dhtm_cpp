@@ -13,10 +13,9 @@ int ZmqConnector::initialize() {
 	//socketSubscriber->connect(subscriberToAddr);
 	return 0;
 }
-void ZmqConnector::publish(const char* argData) {
-	size_t size = strlen(argData); // Assuming your char* is NULL-terminated
-	zmq::message_t message(size);
-	std::memcpy (message.data(), argData, size);
+void ZmqConnector::publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) {
+	std::lock_guard<std::mutex> mutexLock(sendMutex);
+	zmq::message_t message = MessageEncoder::createMessage(argMsgCmd, argMsgKey, argPayload);
 	socketPublisher->send(message);
 }
 }

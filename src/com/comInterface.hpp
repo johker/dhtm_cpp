@@ -1,5 +1,10 @@
 #pragma once
 
+#include <bitset>
+
+#include "coreConstants.hpp"
+#include "../../dhtm_msg/cpp/messageConstants.hpp"
+
 namespace dh {
 
 class ComInterface {
@@ -10,7 +15,7 @@ public:
 
 	virtual int initialize() = 0;
 	
-	virtual void publish(const char* argMessage) = 0;
+	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) = 0;
 
 	virtual int subscribe() = 0;
 

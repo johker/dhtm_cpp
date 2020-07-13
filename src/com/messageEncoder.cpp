@@ -8,7 +8,7 @@ uint32_t MessageEncoder::uuid = 0;
 MessageEncoder::MessageEncoder() {}
 MessageEncoder::~MessageEncoder() {}
 
-zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argSdr) {	
+zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) {	
 	size_t payloadSize = SDR >> 3;
 	size_t msgSize = PAYLOAD_OFFSET + payloadSize;
 	unsigned char msgData[msgSize] = {};
@@ -36,13 +36,61 @@ zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, co
 	// Payload
 	for(int i = 0; i < payloadSize; i++) {
 		for (int j=0; j < 8; j++) {
-			if (argSdr[i*8+j]) {
+			if (argPayload[i*8+j]) {
 				msgData[PAYLOAD_OFFSET + i] |= 1 << j;
 			}
 		}
 	}
 	memcpy(msg.data(), msgData, msgSize);
 	return msg;
+}
+
+zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) {	
+	size_t payloadSize = 4;
+	size_t msgSize = PAYLOAD_OFFSET + payloadSize;
+	unsigned char msgData[msgSize] = {};
+	zmq::message_t msg(msgSize);
+
+	// ID
+	uint32_t id = getUuid();
+	msgData[ID_OFFSET] = (id >> 24) & 0xFF;
+	msgData[ID_OFFSET+1] = (id >> 16) & 0xFF;
+	msgData[ID_OFFSET+2] = (id >> 8) & 0xFF;
+	msgData[ID_OFFSET+3] = (id) & 0xFF;
+
+	// Command
+	msgData[CMD_OFFSET] = (argMsgCmd >> 24) & 0xFF;
+	msgData[CMD_OFFSET+1] = (argMsgCmd >> 16) & 0xFF;
+	msgData[CMD_OFFSET+2] = (argMsgCmd >> 8) & 0xFF;
+	msgData[CMD_OFFSET+3] = (argMsgCmd) & 0xFF;
+
+	// Key
+	msgData[KEY_OFFSET] = (argMsgKey >> 24) & 0xFF;
+	msgData[KEY_OFFSET+1] = (argMsgKey >> 16) & 0xFF;
+	msgData[KEY_OFFSET+2] = (argMsgKey >> 8) & 0xFF;
+	msgData[KEY_OFFSET+3] = (argMsgKey) & 0xFF;
+
+	// Payload
+	std::uint32_t param;
+	std::memcpy(&param, &argPayload, sizeof(argPayload));
+	msgData[PAYLOAD_OFFSET] = (param >> 24) & 0xFF;
+	msgData[PAYLOAD_OFFSET+1] = (param >> 16) & 0xFF;
+	msgData[PAYLOAD_OFFSET+2] = (param >> 8) & 0xFF;
+	msgData[PAYLOAD_OFFSET+3] = (param) & 0xFF;
+
+	memcpy(msg.data(), msgData, msgSize);
+	return msg;
+}
+
+float MessageEncoder::parseParameter(const unsigned char*& argMsgData) {
+	float f;
+	auto b3 = (uint8_t)argMsgData[PAYLOAD_OFFSET];
+	auto b2 = (uint8_t)argMsgData[PAYLOAD_OFFSET+1];
+	auto b1 = (uint8_t)argMsgData[PAYLOAD_OFFSET+2];
+	auto b0 = (uint8_t)argMsgData[PAYLOAD_OFFSET+3];
+	unsigned char b[] = {b3, b2, b1, b0};
+	memcpy(&f, &b, sizeof(f));
+	return f;
 }
 
 MessageCommand MessageEncoder::parseMessageCommand(const unsigned char*& argMsgData){
