@@ -84,10 +84,10 @@ zmq::message_t MessageEncoder::createMessage(const MessageCommand& argMsgCmd, co
 
 float MessageEncoder::parseParameter(const unsigned char*& argMsgData) {
 	float f;
-	auto b3 = (uint8_t)argMsgData[PAYLOAD_OFFSET];
-	auto b2 = (uint8_t)argMsgData[PAYLOAD_OFFSET+1];
-	auto b1 = (uint8_t)argMsgData[PAYLOAD_OFFSET+2];
-	auto b0 = (uint8_t)argMsgData[PAYLOAD_OFFSET+3];
+	auto b0 = (uint8_t)argMsgData[PAYLOAD_OFFSET];
+	auto b1 = (uint8_t)argMsgData[PAYLOAD_OFFSET+1];
+	auto b2 = (uint8_t)argMsgData[PAYLOAD_OFFSET+2];
+	auto b3 = (uint8_t)argMsgData[PAYLOAD_OFFSET+3];
 	unsigned char b[] = {b3, b2, b1, b0};
 	memcpy(&f, &b, sizeof(f));
 	return f;
