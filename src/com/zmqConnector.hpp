@@ -7,6 +7,7 @@
 
 #include "comInterface.hpp"
 #include "messageEncoder.hpp"
+#include "../utils/itcTask.hpp"
 
 
 namespace dh {
@@ -19,6 +20,7 @@ public:
 
 	virtual	int initialize();
 	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
+	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
 		
 
 private: 

@@ -3,8 +3,8 @@ project(dhtmtest)
 
 add_library(testlib 
 	OBJECT 
-		htm/messageEncoderTest.cpp 
-		htm/messageEncoderTest.hpp
+		com/messageEncoderTest.cpp 
+		com/messageEncoderTest.hpp
 )
 add_library(dhtm::testlib ALIAS testlib)
 

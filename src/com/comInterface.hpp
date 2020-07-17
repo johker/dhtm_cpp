@@ -17,6 +17,8 @@ public:
 	
 	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) = 0;
 
+	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) = 0;
+
 	virtual int subscribe() = 0;
 
 	virtual void unsubscrbe() = 0;
