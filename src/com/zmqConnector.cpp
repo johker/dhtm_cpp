@@ -2,7 +2,7 @@
 
 namespace dh {
 
-ZmqConnector::ZmqConnector() {}
+ZmqConnector::ZmqConnector() : ItcTask("0mq") {}
 ZmqConnector::~ZmqConnector() {}
 
 int ZmqConnector::initialize() {
@@ -22,6 +22,10 @@ void ZmqConnector::publish(const MessageCommand& argMsgCmd, const MessageKey& ar
 	std::lock_guard<std::mutex> mutexLock(sendMutex);
 	zmq::message_t message = MessageEncoder::createMessage(argMsgCmd, argMsgKey, argPayload);
 	socketPublisher->send(message); 
+}
+bool ZmqConnector::handleMessage(std::shared_ptr<zmq::message_t> argMessage) {
+	// TODO
+	return false;
 }
 
 }

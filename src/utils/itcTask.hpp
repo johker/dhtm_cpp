@@ -25,7 +25,7 @@ public:
 
 protected:
 	explicit ItcTask(std::string argItcTaskName){
-
+		//TODO 
 	}
 	virtual bool handleMessage(std::shared_ptr<T> argMessage) = 0;
 	bool startItcTask() {

@@ -12,7 +12,7 @@
 
 namespace dh {
 
-class ZmqConnector : public ComInterface {
+class ZmqConnector : public ComInterface, public ItcTask<zmq::message_t> {
 
 public: 
 	ZmqConnector();
@@ -22,6 +22,9 @@ public:
 	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
 	virtual	void publish(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
 		
+protected: 
+	virtual bool handleMessage(std::shared_ptr<zmq::message_t> argMessage); 
+
 
 private: 
 	std::mutex sendMutex;
