@@ -10,6 +10,7 @@ void MessageEncoderTest::TearDown() {}
 TEST_F(MessageEncoderTest, createSdrMessageTest) {
 	
 	// Arrange
+	MessageType testType;
 	MessageCommand testCmd;
 	MessageKey testKey;
 	std::vector<std::bitset<SDR>> testSdrs;
@@ -19,53 +20,59 @@ TEST_F(MessageEncoderTest, createSdrMessageTest) {
 	testSdrs.push_back(sdr1);
 	testSdrs.push_back(sdr2);
 	testSdrs.push_back(sdr3);
+	std::vector<int> testTypes{-1,0,1,UINT16_MAX};
 	std::vector<int> testKeys{-1,0,1,UINT16_MAX};
 	std::vector<int> testCmds{-1,0,1,UINT16_MAX};
 	
-	for(auto& tk : testKeys) {
-		for(auto& tc: testCmds) {
-			for(auto& testSdr: testSdrs) {
+	for(auto& tt : testTypes) {
+		for(auto& tk : testKeys) {
+			for(auto& tc: testCmds) {
+				for(auto& testSdr: testSdrs) {
 
-				testCmd = (dh::MessageCommand) tc;
-				testKey = (dh::MessageKey) tk;
+					testType = (dh::MessageType) tt;
+					testCmd = (dh::MessageCommand) tc;
+					testKey = (dh::MessageKey) tk;
 
-				// Act
-				zmq::message_t testMsg = MessageEncoder::createMessage(testCmd,testKey,testSdr);
-				unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data());		
-				size_t testMsgSize = testMsg.size();
+					// Act
+					zmq::message_t testMsg = MessageEncoder::createMessage(testType,testCmd,testKey,testSdr);
+					unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data());		
+					size_t testMsgSize = testMsg.size();
 
-				// Assert
-				uint32_t createdCmd = 
-					(uint32_t)testMsgData[CMD_OFFSET] << 24 |
-					(uint32_t)testMsgData[CMD_OFFSET+1] << 16 |
-					(uint32_t)testMsgData[CMD_OFFSET+2] << 8  |
-					(uint32_t)testMsgData[CMD_OFFSET+3];
-				EXPECT_EQ(testCmd,createdCmd);
+					// Assert
+					uint16_t createdCmd = 
+						(uint16_t)testMsgData[CMD_OFFSET] << 8  |
+						(uint16_t)testMsgData[CMD_OFFSET+1];
+					EXPECT_EQ(testCmd,createdCmd);
 
-				uint32_t createdKey = 
-					(uint32_t)testMsgData[KEY_OFFSET] << 24 |
-					(uint32_t)testMsgData[KEY_OFFSET+1] << 16 |
-					(uint32_t)testMsgData[KEY_OFFSET+2] << 8  |
-					(uint32_t)testMsgData[KEY_OFFSET+3];
-				EXPECT_EQ(testKey,createdKey);
+					uint16_t createdType = 
+						(uint16_t)testMsgData[TYPE_OFFSET] << 8  |
+						(uint16_t)testMsgData[TYPE_OFFSET+1];
+					EXPECT_EQ(testCmd,createdCmd);
 
-				EXPECT_TRUE(testMsgSize - PAYLOAD_OFFSET == SDR >> 3);
-				for (size_t i=0; i < 2; i++) {
-					for(size_t j = 0; j<8; j++) {
-						EXPECT_EQ(testSdr[i*8+j],((testMsgData[PAYLOAD_OFFSET+i]>>j) &1));
-					}	
-				}
-			}	
+					uint16_t createdKey = 
+						(uint16_t)testMsgData[KEY_OFFSET] << 8  |
+						(uint16_t)testMsgData[KEY_OFFSET+1];
+					EXPECT_EQ(testKey,createdKey);
+
+					EXPECT_TRUE(testMsgSize - PAYLOAD_OFFSET == SDR >> 3);
+					for (size_t i=0; i < 2; i++) {
+						for(size_t j = 0; j<8; j++) {
+							EXPECT_EQ(testSdr[i*8+j],((testMsgData[PAYLOAD_OFFSET+i]>>j) &1));
+						}	
+					}
+				}	
+			}
 		}
 	}
 }
 
 TEST_F(MessageEncoderTest, parseMessageCommandTest) {
 	// Arrange
-	MessageCommand testCmd = MessageCommand::ACK; 
+	MessageType testType = MessageType::UNDEFINED; 
+	MessageCommand testCmd = MessageCommand::RESERVED; 
 	MessageKey emptyKey; 
 	std::bitset<SDR> emptySdr; 
-	zmq::message_t testMsg = MessageEncoder::createMessage(testCmd, emptyKey, emptySdr); 
+	zmq::message_t testMsg = MessageEncoder::createMessage(testType, testCmd, emptyKey, emptySdr); 
 	const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
 	// Act
 	MessageCommand retCmd = MessageEncoder::parseMessageCommand(testMsgData); 
@@ -75,10 +82,11 @@ TEST_F(MessageEncoderTest, parseMessageCommandTest) {
 
 TEST_F(MessageEncoderTest, parseMessageKeyTest) {
 	// Arrange
-	MessageCommand emptyCmd; 
+	MessageType testType = MessageType::UNDEFINED; 
+	MessageCommand testCmd = MessageCommand::RESERVED; 
 	MessageKey testKey = MessageKey::P_SDRLEN; 
 	std::bitset<SDR> emptySdr; 
-	zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, testKey, emptySdr); 
+	zmq::message_t testMsg = MessageEncoder::createMessage(testType, testCmd, testKey, emptySdr); 
 	const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
 	// Act
 	MessageKey retKey = MessageEncoder::parseMessageKey(testMsgData); 
@@ -88,6 +96,7 @@ TEST_F(MessageEncoderTest, parseMessageKeyTest) {
 
 TEST_F(MessageEncoderTest, parseSdrTest) {
 	// Arrange
+	MessageType emptyType; 
 	MessageCommand emptyCmd; 
 	MessageKey emptyKey; 
 	std::vector<std::bitset<SDR>> testSdrs;
@@ -103,7 +112,7 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 	std::bitset<SDR> retSdr;
 
 	for(auto& testSdr : testSdrs) {
-		zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, emptyKey, testSdr); 
+		zmq::message_t testMsg = MessageEncoder::createMessage(emptyType, emptyCmd, emptyKey, testSdr); 
 		const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
 		size_t testMsgSize = testMsg.size();
 		for (size_t i=0; i < 2; i++) {
@@ -124,6 +133,7 @@ TEST_F(MessageEncoderTest, parseSdrTest) {
 
 TEST_F(MessageEncoderTest, parseParameterTest) {
 	// Arrange
+	MessageType emptyType; 
 	MessageCommand emptyCmd;
 	MessageKey emptyKey; 
 	std::vector<float> testParams; 
@@ -132,7 +142,7 @@ TEST_F(MessageEncoderTest, parseParameterTest) {
 	float retParam; 
 
 	for(auto& testParam : testParams) {
-		zmq::message_t testMsg = MessageEncoder::createMessage(emptyCmd, emptyKey, testParam);
+		zmq::message_t testMsg = MessageEncoder::createMessage(emptyType, emptyCmd, emptyKey, testParam);
 		const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
 		size_t testMsgSize = testMsg.size();
 		// Act 

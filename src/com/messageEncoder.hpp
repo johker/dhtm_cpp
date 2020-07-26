@@ -16,8 +16,9 @@ public:
 	MessageEncoder();
 	virtual ~MessageEncoder();
 
-	static zmq::message_t createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
-	static zmq::message_t createMessage(const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
+	static zmq::message_t createMessage(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
+	static zmq::message_t createMessage(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
+	static std::string createTopic(const MessageType& argMsgType); 
 	static MessageCommand parseMessageCommand(const unsigned char*& argMsgData);
 	static MessageKey parseMessageKey(const unsigned char*& argMsgData);
 	static float parseParameter(const unsigned char*& argMsgData);
@@ -25,7 +26,7 @@ public:
 	static void printMessage(zmq::message_t& argMsg);
 
 private:
-	static uint32_t getUuid();
-	static uint32_t uuid;
+	static uint16_t getUuid();
+	static uint16_t uuid;
 };
 }

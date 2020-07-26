@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 #include "../../tiny_htm/tiny_htm/tiny_htm.hpp"
-
+#include "com/zmqConnector.hpp"
 #include "utils/logger.hpp"
 
 
@@ -29,7 +29,7 @@ int main(){
 	//th::ScalarEncoder scalarEncoder(min, max, encLen, actBits);
 	//th::CategoryEncoder categoryEncoder(numcat, encLen);
 	//th::TemporalMemory tm({numcat*4}, 6);
-	dh::zmqConnector zmqConnector; 
+	dh::ZmqConnector zmqConnector; 
 	zmqConnector.initialize();
 		
 	

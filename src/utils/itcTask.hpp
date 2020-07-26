@@ -52,7 +52,7 @@ protected:
 	}
 
 private: 
-	static int worker(ItcTask* argItcTask) {
+	static int worker(ItcTask* argItcTask)  {
 		do {
 			{
 				std::unique_lock<std::mutex> lock(argItcTask->messageQueueMutex);
@@ -60,7 +60,7 @@ private:
 					argItcTask->messageQueuedCondition.wait(lock);
 				}
 			}
-			char* message = nullptr;
+			std::shared_ptr<T> message = nullptr;
 			{
 				std::unique_lock<std::mutex> lock(argItcTask->messageQueueMutex);
 				if(argItcTask->messageQueue.size() > 0) {
@@ -83,7 +83,7 @@ private:
 		return 0;
 	}
 	std::atomic<bool> done; 
-	std::unique_ptr<std::thread> workerThread; 
+	std::thread* workerThread; 
 	mutable std::mutex messageQueueMutex;
 	std::queue<std::shared_ptr<T>> messageQueue;
 	std::condition_variable messageQueuedCondition;
