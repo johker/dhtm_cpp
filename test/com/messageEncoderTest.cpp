@@ -69,7 +69,7 @@ TEST_F(MessageEncoderTest, createSdrMessageTest) {
 TEST_F(MessageEncoderTest, parseMessageCommandTest) {
 	// Arrange
 	MessageType testType = MessageType::UNDEFINED; 
-	MessageCommand testCmd = MessageCommand::RESERVED; 
+	MessageCommand testCmd = MessageCommand::ACK; 
 	MessageKey emptyKey; 
 	std::bitset<SDR> emptySdr; 
 	zmq::message_t testMsg = MessageEncoder::createMessage(testType, testCmd, emptyKey, emptySdr); 

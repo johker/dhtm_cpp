@@ -98,20 +98,16 @@ float MessageEncoder::parseParameter(const unsigned char*& argMsgData) {
 }
 
 MessageCommand MessageEncoder::parseMessageCommand(const unsigned char*& argMsgData){
-	uint32_t msgCmd = 
-		(uint32_t)argMsgData[CMD_OFFSET] << 24 |
-		(uint32_t)argMsgData[CMD_OFFSET+1] << 16 |
-		(uint32_t)argMsgData[CMD_OFFSET+2] << 8  |
-		(uint32_t)argMsgData[CMD_OFFSET+3];
+	uint16_t msgCmd = 
+		(uint16_t)argMsgData[CMD_OFFSET] << 8  |
+		(uint16_t)argMsgData[CMD_OFFSET+1];
 	return static_cast<MessageCommand>(msgCmd);
 }
 
 MessageKey MessageEncoder::parseMessageKey(const unsigned char*& argMsgData){
-	uint32_t msgKey = 
-		(uint32_t)argMsgData[KEY_OFFSET] << 24 |
-		(uint32_t)argMsgData[KEY_OFFSET+1] << 16 |
-		(uint32_t)argMsgData[KEY_OFFSET+2] << 8  |
-		(uint32_t)argMsgData[KEY_OFFSET+3];
+	uint16_t msgKey = 
+		(uint16_t)argMsgData[KEY_OFFSET] << 8  |
+		(uint16_t)argMsgData[KEY_OFFSET+1];
 	return static_cast<MessageKey>(msgKey);
 }
 
