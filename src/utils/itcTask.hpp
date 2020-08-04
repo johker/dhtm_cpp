@@ -50,6 +50,7 @@ protected:
 		}
 		return true;
 	}
+	std::atomic<bool> done; 
 
 private: 
 	static int worker(ItcTask* argItcTask)  {
@@ -82,7 +83,6 @@ private:
 		}
 		return 0;
 	}
-	std::atomic<bool> done; 
 	std::thread* workerThread; 
 	mutable std::mutex messageQueueMutex;
 	std::queue<std::shared_ptr<T>> messageQueue;

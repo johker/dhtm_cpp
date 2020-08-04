@@ -3,7 +3,7 @@
 #include <zmq.hpp>
 #include <bitset>
 
-#include "coreConstants.hpp"
+#include "../htm/htmConstants.hpp"
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
 #include "../utils/logger.hpp"
 

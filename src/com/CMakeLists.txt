@@ -3,10 +3,10 @@ target_sources(comlib
 		zmqConnector.cpp
 		messageEncoder.cpp
 	PUBLIC
+		zmqSubscriber.hpp
 		zmqConnector.hpp
 		messageEncoder.hpp
 		comInterface.hpp
-		coreConstants.hpp
 )
 find_package(Threads REQUIRED)
 

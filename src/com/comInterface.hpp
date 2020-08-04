@@ -2,7 +2,7 @@
 
 #include <bitset>
 
-#include "coreConstants.hpp"
+#include "../htm/htmConstants.hpp"
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
 
 namespace dh {
@@ -14,14 +14,10 @@ public:
 	virtual ~ComInterface() {};
 
 	virtual int initialize() = 0;
-	
 	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) = 0;
-
 	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) = 0;
-
-	virtual int subscribe() = 0;
-
-	virtual void unsubscribe() = 0;
+	virtual int subscribe(const MessageType& argMsgType, ComHandlerInterface* argComHandler) = 0;
+	virtual void unsubscribe(int argSubscriptionId) = 0;
 	
 };
 }

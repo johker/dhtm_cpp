@@ -2,6 +2,7 @@ target_sources(htmlib
 	PRIVATE
 		spatialPooler.cpp
 	PUBLIC
+		htmConstants.hpp
 		spatialPooler.hpp
 )
 find_package(xtl REQUIRED)
