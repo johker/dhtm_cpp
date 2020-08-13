@@ -3,6 +3,7 @@
 #include <bitset>
 
 #include "../htm/htmConstants.hpp"
+#include "comHandlerInterface.hpp"
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
 
 namespace dh {

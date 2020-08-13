@@ -8,6 +8,7 @@
 
 #include "comInterface.hpp"
 #include "comHandlerInterface.hpp"
+#include "zmqSubscriber.hpp"
 #include "messageEncoder.hpp"
 #include "../utils/itcTask.hpp"
 
@@ -32,14 +33,14 @@ protected:
 
 
 private: 
-	void send(zmq::message_t argMessage, const MessageType& argMsgType);
+	void send(zmq::message_t& argMessage, const MessageType& argMsgType);
 
-	std::mutex sendMutex;
 	zmq::context_t* zmqContext;
 	zmq::socket_t* socketPublisher;
 	zmq::socket_t* socketSubscriber;
 	std::string recvProtocol;
 	std::string sendProtocol;
+	std::mutex sendMutex;
 	std::mutex subscriberMutex;
 	int subscriptionId = 0;
 	std::vector<ZmqSubscriber> subscriptions; 
