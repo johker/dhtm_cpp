@@ -21,6 +21,7 @@ public:
 	static std::string createTopic(const MessageType& argMsgType); 
 	static MessageCommand parseMessageCommand(const unsigned char*& argMsgData);
 	static MessageKey parseMessageKey(const unsigned char*& argMsgData);
+	static MessageType parseMessageType(const unsigned char*& argMsgData);
 	static float parseParameter(const unsigned char*& argMsgData);
 	static std::bitset<SDR> parseSdr(const unsigned char*& argMsgData, const size_t& argMsgSize);
 	static void printMessage(zmq::message_t& argMsg);

@@ -90,6 +90,26 @@ bool ZmqConnector::handleMessage(std::shared_ptr<zmq::message_t> argMessage) {
 			}
 			zmq::message_t rx_msg; 
 			socketSubscriber->recv(&rx_msg, 0);
+			//TODO: Parse MessageType
+			const unsigned char* msgData = static_cast<unsigned char*>(rx_msg.data()); 
+			MessageType rcvMsgType = MessageEncoder::parseMessageType(msgData);
+			MessageCommand rcvMsgCmd = MessageEncoder::parseMessageCommand(msgData);
+			MessageKey rcvMsgKey = MessageEncoder::parseMessageKey(msgData);
+
+			for(auto& subscriber : subscriptions) {
+				if(subscriber.messageType == rcvMsgType) {
+					if(rcvMsgKey > MSG_KEY_DIV) {	
+						// Message Payload = SDR
+						std::bitset<SDR> rcvSdr = MessageEncoder::parseSdr(msgData, rx_msg.size());
+						subscriber.comHandler->handleMessageCallback(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvSdr);
+					} else {
+						// Message Payload = Parameter
+						const float rcvParameter = MessageEncoder::parseParameter(msgData);
+						subscriber.comHandler->handleMessageCallback(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvParameter);
+					}
+				}
+							
+			}
 		}
 	}
 	return false;

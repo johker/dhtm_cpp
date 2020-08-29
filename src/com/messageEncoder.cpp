@@ -111,6 +111,13 @@ MessageKey MessageEncoder::parseMessageKey(const unsigned char*& argMsgData){
 	return static_cast<MessageKey>(msgKey);
 }
 
+MessageType MessageEncoder::parseMessageType(const unsigned char*& argMsgData){
+	uint16_t msgType = 
+		(uint16_t)argMsgData[TYPE_OFFSET] << 8  |
+		(uint16_t)argMsgData[TYPE_OFFSET+1];
+	return static_cast<MessageType>(msgType);
+}
+
 uint16_t MessageEncoder::getUuid() {
 	return uuid++;
 }

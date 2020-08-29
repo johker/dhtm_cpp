@@ -94,6 +94,20 @@ TEST_F(MessageEncoderTest, parseMessageKeyTest) {
 	EXPECT_EQ(retKey,testKey);
 }
 
+TEST_F(MessageEncoderTest, parseMessageTypeTest) {
+	// Arrange
+	MessageType testType = MessageType::DATA; 
+	MessageCommand testCmd = MessageCommand::RESERVED; 
+	MessageKey testKey = MessageKey::P_SDRLEN; 
+	std::bitset<SDR> emptySdr; 
+	zmq::message_t testMsg = MessageEncoder::createMessage(testType, testCmd, testKey, emptySdr); 
+	const unsigned char* testMsgData = static_cast<unsigned char*>(testMsg.data()); 
+	// Act
+	MessageType retType = MessageEncoder::parseMessageType(testMsgData); 
+	// Assert
+	EXPECT_EQ(retType,testType);
+}
+
 TEST_F(MessageEncoderTest, parseSdrTest) {
 	// Arrange
 	MessageType emptyType; 
