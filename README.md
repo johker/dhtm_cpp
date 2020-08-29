@@ -1,7 +1,13 @@
 ## Distributed Hierarchical Temporal Memory 
 
 * Communication via SDRs (content) and simple command codes (control)
-* No error correction for SDR due to its noise tolerance
-* No code generation - relying on component tests 
+
+
++ Next step: 
+
+- Subscribe to CONFIGURATION messages from task
+- Print message in task
+- Read from command line input (main) and send as message
+
 
 
