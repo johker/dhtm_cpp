@@ -1,6 +1,7 @@
 #pragma once 
 
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
+#include "comInterface.hpp"
 
 namespace dh {
 
@@ -11,10 +12,7 @@ public:
 	
 	virtual ~ComHandlerInterface();
 
-	virtual void handleMessageCallback(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) = 0; 
-	virtual void handleMessageCallback(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) = 0; 
-	
-
+	virtual void handleMessageCallback(const ComMessage& argComMessage) = 0; 
 
 };
 

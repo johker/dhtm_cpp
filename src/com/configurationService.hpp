@@ -6,11 +6,13 @@
 
 namespace dh {
 
-class ConfigurationService {
+class ConfigurationService : 	public ItcTask<zmq::message_t>, 
+				public ComHandlerInterface 
+{
 
 public: 
-	ConfigurationService(std::shared_ptr<ComInterface> argComInterface) : 	public ItcTask<zmq::message_t>, 
-										public ComHandlerInterface;
+	ConfigurationService(std::shared_ptr<ComInterface> argComManager); 	
+										
 	virtual ~ConfigurationService() {};
 
 	int initialize(); 

@@ -101,11 +101,14 @@ bool ZmqConnector::handleMessage(std::shared_ptr<zmq::message_t> argMessage) {
 					if(rcvMsgKey > MSG_KEY_DIV) {	
 						// Message Payload = SDR
 						std::bitset<SDR> rcvSdr = MessageEncoder::parseSdr(msgData, rx_msg.size());
-						subscriber.comHandler->handleMessageCallback(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvSdr);
+						ComMessage comMessage(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvSdr);
+						subscriber.comHandler->handleMessageCallback(comMessage);
+
 					} else {
 						// Message Payload = Parameter
 						const float rcvParameter = MessageEncoder::parseParameter(msgData);
-						subscriber.comHandler->handleMessageCallback(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvParameter);
+						ComMessage comMessage(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvParameter);
+						subscriber.comHandler->handleMessageCallback(comMessage);
 					}
 				}
 							

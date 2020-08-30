@@ -8,6 +8,31 @@
 
 namespace dh {
 
+class ComMessage {
+
+public: 
+	ComMessage(MessageType argMessageType, MessageCommand argMessageCommand, MessageKey argMessageKey, float argParameter) 
+		: messageType(argMessageType),
+		messageCommand(argMessageCommand),
+		messageKey(argMessageKey),
+		parameter(argParameter)
+	{}
+	
+	ComMessage(MessageType argMessageType, MessageCommand argMessageCommand, MessageKey argMessageKey, bitset<SDR> argSdr)
+		: messageType(argMessageType),
+		messageCommand(argMessageCommand),
+		messageKey(argMessageKey),
+		sdr(argSdr)
+	{}
+
+	MessageType messageType;
+	MessageCommand messageCommand; 
+	MessageKey messageKey;
+	float parameter;
+	bitset<SDR> sdr;
+
+}
+
 class ComInterface {
 
 public: 
@@ -15,8 +40,7 @@ public:
 	virtual ~ComInterface() {};
 
 	virtual int initialize() = 0;
-	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) = 0;
-	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) = 0;
+	virtual	void publish(const ComMessage& argComMessage) = 0;
 	virtual int subscribe(const MessageType& argMsgType, ComHandlerInterface* argComHandler) = 0;
 	virtual void unsubscribe(int argSubscriptionId) = 0;
 	

@@ -5,7 +5,11 @@
 
 namespace dh {
 
-ConfigurationService::ConfigurationService() : ItcTask("ConfigurationService") {
+ConfigurationService::ConfigurationService(std::shared_ptr<ComInterface> argComManager) 
+	: ItcTask("ConfigurationService"), 
+	comManager(argComManager)
+							
+{
 }
 
 ConfigurationService::initialize() {
