@@ -5,8 +5,6 @@ target_sources(htmlib
 		htmConstants.hpp
 		spatialPooler.hpp
 )
-find_package(xtl REQUIRED)
-find_package(xtensor REQUIRED)
 
 find_package(Threads REQUIRED)
 

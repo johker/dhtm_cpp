@@ -15,9 +15,6 @@ add_library(dhtm::htmlib ALIAS htmlib)
 add_library(utilslib)
 add_library(dhtm::utilslib ALIAS utilslib)
 
-find_package(xtl REQUIRED)
-find_package(xtensor REQUIRED)
-
 find_library(zmq REQUIRED)
 
 add_subdirectory(htm)

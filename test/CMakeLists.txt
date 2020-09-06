@@ -18,8 +18,6 @@ target_link_libraries(testlib
  
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(xtl REQUIRED)
-find_package(xtensor REQUIRED)
 find_package(GTest REQUIRED)
 
 find_library(zmq REQUIRED)

@@ -5,8 +5,6 @@ target_sources(utilslib
 		logger.hpp
 		itcTask.hpp
 )
-find_package(xtl REQUIRED)
-find_package(xtensor REQUIRED)
 
 find_package(Threads REQUIRED)
 
