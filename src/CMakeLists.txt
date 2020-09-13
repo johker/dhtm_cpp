@@ -28,6 +28,5 @@ target_link_libraries(dhtmcore
 		comlib
 		htmlib 
 		utilslib 
-		xtensor
 		${CURSES_LIBRARY}
 )

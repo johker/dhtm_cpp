@@ -1,7 +1,6 @@
 #pragma once
 
 #include "comInterface.hpp"
-#include "comHandlerInterface.hpp"
 
 
 namespace dh {

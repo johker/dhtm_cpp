@@ -13,7 +13,6 @@ target_link_libraries(testlib
 	PUBLIC 
 		GTest::Main 
 		zmq 
-		xtensor
 )
  
 set(CMAKE_BUILD_TYPE Debug)

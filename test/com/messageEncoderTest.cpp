@@ -1,5 +1,4 @@
 #include "messageEncoderTest.hpp"
-#include <xtensor/xio.hpp>
 
 namespace dh {
 

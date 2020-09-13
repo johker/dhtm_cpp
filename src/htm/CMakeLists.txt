@@ -10,7 +10,6 @@ find_package(Threads REQUIRED)
 
 target_link_libraries(htmlib 
 	PUBLIC 
-		xtensor 
 		${CMAKE_THREAD_LIBS_INIT}
 )
 

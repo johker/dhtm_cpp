@@ -3,7 +3,6 @@
 #include <bitset>
 
 #include "../htm/htmConstants.hpp"
-#include "comHandlerInterface.hpp"
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
 
 namespace dh {
@@ -18,7 +17,7 @@ public:
 		parameter(argParameter)
 	{}
 	
-	ComMessage(MessageType argMessageType, MessageCommand argMessageCommand, MessageKey argMessageKey, bitset<SDR> argSdr)
+	ComMessage(MessageType argMessageType, MessageCommand argMessageCommand, MessageKey argMessageKey, std::bitset<SDR> argSdr)
 		: messageType(argMessageType),
 		messageCommand(argMessageCommand),
 		messageKey(argMessageKey),
@@ -29,9 +28,20 @@ public:
 	MessageCommand messageCommand; 
 	MessageKey messageKey;
 	float parameter;
-	bitset<SDR> sdr;
+	std::bitset<SDR> sdr;
 
-}
+};
+
+class ComHandlerInterface {
+
+public:
+	ComHandlerInterface(); 
+	
+	virtual ~ComHandlerInterface();
+
+	virtual void handleMessageCallback(const ComMessage& argComMessage) = 0; 
+
+};
 
 class ComInterface {
 

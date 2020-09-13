@@ -15,7 +15,6 @@ set_target_properties(utilslib
 
 target_link_libraries(utilslib 
 	PUBLIC 
-		xtensor 
 		${CMAKE_THREAD_LIBS_INIT}
 )
 

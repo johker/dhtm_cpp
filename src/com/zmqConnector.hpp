@@ -7,7 +7,6 @@
 #include <zmq.hpp>
 
 #include "comInterface.hpp"
-#include "comHandlerInterface.hpp"
 #include "zmqSubscriber.hpp"
 #include "messageEncoder.hpp"
 #include "../utils/itcTask.hpp"
