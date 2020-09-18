@@ -28,5 +28,4 @@ target_link_libraries(dhtmcore
 		comlib
 		htmlib 
 		utilslib 
-		${CURSES_LIBRARY}
 )

@@ -1,16 +1,5 @@
 #include <iostream>
-#include <string>
-#include <xtensor/xarray.hpp>
-#include <chrono>
-#include <thread>
-#include <panel.h>
-#include <ncursesw/ncurses.h>
-#include <locale.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 
-#include "../../tiny_htm/tiny_htm/tiny_htm.hpp"
 #include "com/zmqConnector.hpp"
 #include "utils/logger.hpp"
 
@@ -26,9 +15,6 @@ int main(){
 	size_t min = 0; 
 	size_t max = 100; 
 
-	//th::ScalarEncoder scalarEncoder(min, max, encLen, actBits);
-	//th::CategoryEncoder categoryEncoder(numcat, encLen);
-	//th::TemporalMemory tm({numcat*4}, 6);
 	dh::ZmqConnector zmqConnector; 
 	zmqConnector.initialize();
 		

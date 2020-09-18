@@ -8,6 +8,7 @@ target_sources(comlib
 		messageEncoder.hpp
 		comInterface.hpp
 )
+
 find_package(Threads REQUIRED)
 
 target_link_libraries(comlib 

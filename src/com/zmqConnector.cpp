@@ -35,14 +35,14 @@ int ZmqConnector::initialize() {
 	return 0;
 }
 
-void ZmqConnector::publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload) {
-	zmq::message_t message = MessageEncoder::createMessage(argMsgType, argMsgCmd, argMsgKey, argPayload);
-	send(message, argMsgType);
-}
-
-void ZmqConnector::publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload) {
-	zmq::message_t message = MessageEncoder::createMessage(argMsgType, argMsgCmd, argMsgKey, argPayload);
-	send(message, argMsgType);
+void ZmqConnector::publish(const ComMessage& argComMessage) {
+	zmq::message_t message; 
+	if(argComMessage.messageKey > MSG_KEY_DIV) {	
+		message = MessageEncoder::createMessage(argComMessage.messageType, argComMessage.messageCommand, argComMessage.messageKey, argComMessage.sdr);
+	} else {
+		 message = MessageEncoder::createMessage(argComMessage.messageType, argComMessage.messageCommand, argComMessage.messageKey, argComMessage.parameter);
+	}
+	send(message, argComMessage.messageType);
 }
 
 void ZmqConnector::send(zmq::message_t& argMessage, const MessageType& argMsgType) {
@@ -101,13 +101,13 @@ bool ZmqConnector::handleMessage(std::shared_ptr<zmq::message_t> argMessage) {
 					if(rcvMsgKey > MSG_KEY_DIV) {	
 						// Message Payload = SDR
 						std::bitset<SDR> rcvSdr = MessageEncoder::parseSdr(msgData, rx_msg.size());
-						ComMessage comMessage(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvSdr);
+						std::shared_ptr<ComMessage> comMessage = std::make_shared<ComMessage>(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvSdr);
 						subscriber.comHandler->handleMessageCallback(comMessage);
 
 					} else {
 						// Message Payload = Parameter
 						const float rcvParameter = MessageEncoder::parseParameter(msgData);
-						ComMessage comMessage(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvParameter);
+						std::shared_ptr<ComMessage> comMessage = std::make_shared<ComMessage>(rcvMsgType, rcvMsgCmd, rcvMsgKey, rcvParameter);
 						subscriber.comHandler->handleMessageCallback(comMessage);
 					}
 				}

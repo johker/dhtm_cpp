@@ -23,7 +23,7 @@ public:
 
 	virtual	int initialize();
 	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
-	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
+	virtual	void publish(const ComMessage& argComMessage);
 	virtual int subscribe(const MessageType& argMsgType, ComHandlerInterface* argComHandler);
 	virtual void unsubscribe(const int& argSusbscriptionId);
 		
