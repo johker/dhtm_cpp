@@ -78,7 +78,7 @@ zmq::message_t MessageEncoder::createMessage(const MessageType& argMsgType, cons
 	return msg;
 }
 
-std::string createTopic(const MessageType& argMsgType) {
+std::string MessageEncoder::createTopic(const MessageType& argMsgType) {
 	std::string topic;
 	std::stringstream ss;
         ss << std::dec << std::setw(3) << std::setfill('0') << argMsgType;
@@ -98,7 +98,7 @@ float MessageEncoder::parseParameter(const unsigned char*& argMsgData) {
 }
 
 MessageCommand MessageEncoder::parseMessageCommand(const unsigned char*& argMsgData){
-	uint16_t msgCmd = 
+	uint16_t msgCmd =
 		(uint16_t)argMsgData[CMD_OFFSET] << 8  |
 		(uint16_t)argMsgData[CMD_OFFSET+1];
 	return static_cast<MessageCommand>(msgCmd);

@@ -16,22 +16,21 @@ namespace dh {
 
 class ZmqConnector : public ComInterface, public ItcTask<zmq::message_t> {
 
-public: 
+public:
 	ZmqConnector();
 	ZmqConnector(std::string argSendProtocol, std::string argRcvProtocol);
 	virtual ~ZmqConnector();
 
 	virtual	int initialize();
-	virtual	void publish(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
 	virtual	void publish(const ComMessage& argComMessage);
 	virtual int subscribe(const MessageType& argMsgType, ComHandlerInterface* argComHandler);
 	virtual void unsubscribe(const int& argSusbscriptionId);
-		
-protected: 
+	
+protected:
 	virtual bool handleMessage(std::shared_ptr<zmq::message_t> argMessage); 
 
 
-private: 
+private:
 	void send(zmq::message_t& argMessage, const MessageType& argMsgType);
 
 	zmq::context_t* zmqContext;
@@ -42,7 +41,7 @@ private:
 	std::mutex sendMutex;
 	std::mutex subscriberMutex;
 	int subscriptionId = 0;
-	std::vector<ZmqSubscriber> subscriptions; 
+	std::vector<ZmqSubscriber> subscriptions;
 
 };
 }

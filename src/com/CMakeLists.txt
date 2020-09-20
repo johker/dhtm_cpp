@@ -10,13 +10,14 @@ target_sources(comlib
 )
 
 find_package(Threads REQUIRED)
+find_library(zmq REQUIRED)
 
-target_link_libraries(comlib 
-	PUBLIC 
+target_link_libraries(comlib
+	PUBLIC
 		${CMAKE_THREAD_LIBS_INIT}
 )
 
-target_include_directories(comlib 
-	PUBLIC 
+target_include_directories(comlib
+	PUBLIC
 		${CMAKE_CURRENT_LIST_DIR}
 )

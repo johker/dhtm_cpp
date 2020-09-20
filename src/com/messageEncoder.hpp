@@ -18,7 +18,7 @@ public:
 
 	static zmq::message_t createMessage(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const std::bitset<SDR>& argPayload);
 	static zmq::message_t createMessage(const MessageType& argMsgType, const MessageCommand& argMsgCmd, const MessageKey& argMsgKey, const float& argPayload);
-	static std::string createTopic(const MessageType& argMsgType); 
+	static std::string createTopic(const MessageType& argMsgType);
 	static MessageCommand parseMessageCommand(const unsigned char*& argMsgData);
 	static MessageKey parseMessageKey(const unsigned char*& argMsgData);
 	static MessageType parseMessageType(const unsigned char*& argMsgData);

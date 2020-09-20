@@ -9,7 +9,7 @@ namespace dh {
 
 class ComMessage {
 
-public: 
+public:
 	ComMessage(MessageType argMessageType, MessageCommand argMessageCommand, MessageKey argMessageKey, float argParameter) 
 		: messageType(argMessageType),
 		messageCommand(argMessageCommand),
