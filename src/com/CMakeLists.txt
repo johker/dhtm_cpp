@@ -1,12 +1,15 @@
 target_sources(comlib
 	PRIVATE
-		zmqConnector.cpp
+		configurationService.cpp
 		messageEncoder.cpp
+		zmqConnector.cpp
+
 	PUBLIC
+		comInterface.hpp
+		configurationService.hpp
+		messageEncoder.hpp
 		zmqSubscriber.hpp
 		zmqConnector.hpp
-		messageEncoder.hpp
-		comInterface.hpp
 )
 
 find_package(Threads REQUIRED)

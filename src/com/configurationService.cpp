@@ -9,20 +9,21 @@ namespace dh {
 ConfigurationService::ConfigurationService(std::shared_ptr<ComInterface> argComManager)
 	: ItcTask("ConfigurationService"),
 	comManager(argComManager)
-{
-}
+{}
+ConfigurationService::~ConfigurationService() {}
 
 ConfigurationService::initialize() {
-	subscriptionHandles.push_back(comManager->subscribe(MessageType::CONFIGURATION));
+	subscriptionHandles.push_back(comService->subscribe(MessageType::CONFIGURATION));
 }
 
-bool handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) {
+bool ConfigurationService::handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) {
 	pushMessage(argComMessage);
 	return false;
 }
-bool handleMessage(std::shared_ptr<ComMessage> argMessage) {
+bool ConfigurationService::handleMessage(std::shared_ptr<ComMessage> argMessage) {
 	//TODO: Do sth with message
 
 	DEBUG(sprintf("Message received: T=%d, C=%d, K=%d")); 	
+	return false;
 }
 

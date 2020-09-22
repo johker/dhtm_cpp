@@ -39,7 +39,7 @@ public:
 	
 	virtual ~ComHandlerInterface();
 
-	virtual void handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) = 0; 
+	virtual bool handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) = 0; 
 
 };
 
