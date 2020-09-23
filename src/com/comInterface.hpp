@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bitset>
+#include <memory>
 
 #include "../htm/htmConstants.hpp"
 #include "../../dhtm_msg/cpp/messageConstants.hpp"
@@ -35,9 +36,9 @@ public:
 class ComHandlerInterface {
 
 public:
-	ComHandlerInterface(); 
+	ComHandlerInterface() {}; 
 	
-	virtual ~ComHandlerInterface();
+	virtual ~ComHandlerInterface() {};
 
 	virtual bool handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) = 0; 
 

@@ -6,14 +6,15 @@
 
 namespace dh {
 
-ConfigurationService::ConfigurationService(std::shared_ptr<ComInterface> argComManager)
+ConfigurationService::ConfigurationService(std::shared_ptr<ComInterface> argComService)
 	: ItcTask("ConfigurationService"),
-	comManager(argComManager)
+	comService(argComService)
 {}
 ConfigurationService::~ConfigurationService() {}
 
-ConfigurationService::initialize() {
-	subscriptionHandles.push_back(comService->subscribe(MessageType::CONFIGURATION));
+int ConfigurationService::initialize() {
+	subscriptionHandles.push_back(comService->subscribe(MessageType::CONFIGURATION, this));
+	return 0;
 }
 
 bool ConfigurationService::handleMessageCallback(std::shared_ptr<ComMessage> argComMessage) {
@@ -23,7 +24,8 @@ bool ConfigurationService::handleMessageCallback(std::shared_ptr<ComMessage> arg
 bool ConfigurationService::handleMessage(std::shared_ptr<ComMessage> argMessage) {
 	//TODO: Do sth with message
 
-	DEBUG(sprintf("Message received: T=%d, C=%d, K=%d")); 	
+	std::stringstream ss;
+        ss << "Message received: T=" << argMessage->messageType << "C=" << argMessage->messageCommand << "K=" << argMessage->messageKey << "\n";
 	return false;
 }
-
+}

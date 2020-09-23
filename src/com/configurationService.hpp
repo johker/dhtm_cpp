@@ -1,7 +1,7 @@
 #pragma once
 
 #include "comInterface.hpp"
-
+#include "../utils/itcTask.hpp"
 
 namespace dh {
 
@@ -9,7 +9,7 @@ class ConfigurationService : 	public ItcTask<ComMessage>,
 				public ComHandlerInterface
 {
 
-public: 
+public:
 	ConfigurationService(std::shared_ptr<ComInterface> argComManager);
 	virtual ~ConfigurationService();
 	int initialize();
