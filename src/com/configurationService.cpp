@@ -26,6 +26,7 @@ bool ConfigurationService::handleMessage(std::shared_ptr<ComMessage> argMessage)
 
 	std::stringstream ss;
         ss << "Message received: T=" << argMessage->messageType << "C=" << argMessage->messageCommand << "K=" << argMessage->messageKey << "\n";
+	DEBUG(ss.str());
 	return false;
 }
 }

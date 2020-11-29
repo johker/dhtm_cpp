@@ -1,10 +1,11 @@
 #include <iostream>
-
+#include <thread>
+#include <chrono>
 #include "com/zmqConnector.hpp"
 #include "com/configurationService.hpp"
 #include "com/comInterface.hpp"
 #include "utils/logger.hpp"
-
+#include "htm/htmConstants.hpp"
 
 
 int main(){
@@ -26,14 +27,31 @@ int main(){
 
 	DEBUG("DHTM started");
 
-	std::string input;
-	std::cout << "Enter messages:";
-
+	uint16_t type;
+	uint16_t cmd;
+	uint16_t key;
+	dh::MessageType msgType;
+	float value;
+	dh::MessageCommand msgCmd;
+	dh::MessageKey msgKey;
+ 
 	while (true) {
-		std::getline(std::cin,input);
+		std::cout << "Enter msg type:\n";
+		std::cin >> type;
+		std::cout << "Enter msg command:\n"; 
+		std::cin >> cmd;
+		std::cout << "Enter msg key:\n";
+		std::cin >> key;
+		std::cout << "Enter value:\n";
+		std::cin >> value;
+		msgType = static_cast<dh::MessageType>(type);
+		msgCmd = static_cast<dh::MessageCommand>(cmd);
+		msgKey = static_cast<dh::MessageKey>(key);
+		dh::ComMessage comMessage(msgType,msgCmd,msgKey,value);
+		comService->publish(comMessage);
+		std::cout << "Message sent.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
-
 	return 0;
-
 }
 

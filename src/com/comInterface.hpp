@@ -51,7 +51,7 @@ public:
 	virtual ~ComInterface() {};
 
 	virtual int initialize() = 0;
-	virtual	void publish(const ComMessage& argComMessage) = 0;
+	virtual void publish(const ComMessage& argComMessage) = 0;
 	virtual int subscribe(const MessageType& argMsgType, ComHandlerInterface* argComHandler) = 0;
 	virtual void unsubscribe(const int& argSubscriptionId) = 0;
 	

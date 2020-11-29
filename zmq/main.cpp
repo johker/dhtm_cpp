@@ -12,11 +12,11 @@ int main()
 
 	zmq::socket_t socketPublish(context_1, ZMQ_PUB);
 	socketPublish.bind(publishConnection);
-			     
+
 	zmq::socket_t sockSubscribe(context_2, ZMQ_SUB);
 	sockSubscribe.bind(subcribeConnection);
 	sockSubscribe.setsockopt(ZMQ_SUBSCRIBE, "", 0);
-			     
+
 	printf("0mq broker ready\n");
 	zmq::proxy(static_cast<void*>(sockSubscribe), static_cast
 			<void*>(socketPublish), nullptr);
