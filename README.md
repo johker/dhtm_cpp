@@ -5,9 +5,6 @@
 
 + Next step: 
 
-- Subscribe to CONFIGURATION messages from task
-- Print message in task
-- Read from command line input (main) and send as message
-
+- Encode and decode a custom message / send and receive via msg broker
 
 
